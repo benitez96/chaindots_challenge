@@ -12,6 +12,27 @@ class TodoListViewTest(TestCase):
         response = self.client.get(reverse('todos_page'))
         self.assertTemplateUsed(response, 'index.html')
 
+    def test_todos_page_view_context(self):
+        response = self.client.get(reverse('todos_page'))
+        completed_todos = response.context['completed_todos'].count()
+        uncompleted_todos = response.context['uncompleted_todos'].count()
+        self.assertEqual(completed_todos + uncompleted_todos, 0)
+
+    def test_todos_page_view_context_with_todos(self):
+
+        todos = [
+            Todo(name='Test 1', completed=False),
+            Todo(name='Test 2', completed=True),
+        ]
+        Todo.objects.bulk_create(todos)
+
+        response = self.client.get(reverse('todos_page'))
+
+        completed_todos = response.context['completed_todos'].count()
+        uncompleted_todos = response.context['uncompleted_todos'].count()
+
+        self.assertEqual(completed_todos + uncompleted_todos, 2)
+
 
     def test_create_todo(self):
 
