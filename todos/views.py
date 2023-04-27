@@ -50,22 +50,15 @@ def todo_toggle_complete(request, pk):
     return redirect('todos_page')
 
 
+def todo_update(request, pk):
 
+    logger.info('Entering todo_update view, id: %s', pk)
 
+    todo = get_object_or_404(Todo, id=pk)
 
+    logger.info('Updating todo name: "%s" for -> "%s"', todo.name, request.POST['name'])
 
+    todo.name = request.POST['name']
+    todo.save()
 
-
-
-
-
-
-
-
-# def todo_edit(request, todo_id):
-#     todo = get_object_or_404(Todo, id=todo_id)
-
-#     if request.method == 'PATCH':
-#         todo.name = request.PATCH['name']
-
-#     return redirect('todos_page')
+    return redirect('todos_page')

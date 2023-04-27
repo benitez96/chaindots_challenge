@@ -54,3 +54,12 @@ class TodoListViewTest(TestCase):
         todo = Todo.objects.create(name='Test todo', completed=False)
         self.client.get(reverse('todo_delete', args=[todo.id]))
         self.assertEqual(Todo.objects.count(), 0)
+
+    def test_update_todo(self):
+
+        todo = Todo.objects.create(name='Test todo', completed=False)
+        self.client.post(reverse('todo_update', args=[todo.id]), {'name': 'Updated todo'})
+        todo.refresh_from_db()
+
+        self.assertEqual(todo.name, 'Updated todo')
+

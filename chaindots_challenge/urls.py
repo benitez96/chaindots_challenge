@@ -24,5 +24,7 @@ urlpatterns = [
     path('', views.todos_page, name='todos_page'),
     path('toggle/<int:pk>', views.todo_toggle_complete, name='todo_toggle_complete'),
     path('delete/<int:pk>', views.todo_delete, name='todo_delete'),
+    path('update/<int:pk>', views.todo_update, name='todo_update'),
     path('admin/', admin.site.urls),
+
 ]
